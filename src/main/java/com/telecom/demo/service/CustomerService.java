@@ -11,4 +11,6 @@ public interface CustomerService {
     public CustomerDTO createCustomer(CustomerDTO customerDTO);
 
     public List<CustomerDTO> getAllCustomer();
+
+    List<CustomerDTO> getAllCustomerInCity(String city);
 }

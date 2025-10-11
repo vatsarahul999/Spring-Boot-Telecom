@@ -27,32 +27,27 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http ) throws Exception {
-//        http.csrf().disable().authorizeHttpRequests( auth -> auth
-//                .requestMatchers("/myEndPoint/**").hasRole("ADMIN")
-//                .requestMatchers("/customer/**").permitAll()
-//                .anyRequest().authenticated()).httpBasic();
-        http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/myEndPoint/**").hasRole("ADMIN")
+        http.csrf().disable().authorizeHttpRequests( auth -> auth
+                .requestMatchers("/myEndPoint/**").hasRole("ADMIN")
+                .requestMatchers("/product/**").hasRole("ADMIN")
                 .requestMatchers("/customer/**").permitAll()
-                        .anyRequest().authenticated()
-                ).oauth2ResourceServer(oauth -> oauth.jwt());
-       // OAuth2AuthorizationServerProperties
+                .anyRequest().authenticated()).httpBasic();
         return http.build();
     }
 
-    public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient client = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("laser-comm")
-                .clientSecret("secret")
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://google.com")
-                .scope("read")
-                .scope("write")
-                .build();
-        return new InMemoryRegisteredClientRepository(client);
-    }
+//    public RegisteredClientRepository registeredClientRepository() {
+//        RegisteredClient client = RegisteredClient.withId(UUID.randomUUID().toString())
+//                .clientId("laser-comm")
+//                .clientSecret("secret")
+//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+//                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+//                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+//                .redirectUri("http://google.com")
+//                .scope("read")
+//                .scope("write")
+//                .build();
+//        return new InMemoryRegisteredClientRepository(client);
+//    }
 
     @Bean
     public UserDetailsService userDetailsService() {

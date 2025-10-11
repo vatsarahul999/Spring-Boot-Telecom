@@ -1,5 +1,6 @@
 package com.telecom.demo.db.entities.customer;
 
+import com.telecom.demo.db.entities.product.BooleanToProductPlanConverter;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,6 +16,10 @@ public class Customer {
 
     @Column
     private String phoneNumber;
+
+    @Column
+    @Convert (converter = BooleanToProductPlanConverter.class)
+    private Boolean isActive;
 
     @OneToOne(targetEntity = Address.class,fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     @PrimaryKeyJoinColumn(name="address_id")

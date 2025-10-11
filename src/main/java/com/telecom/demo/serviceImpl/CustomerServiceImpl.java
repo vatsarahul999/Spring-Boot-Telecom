@@ -6,6 +6,7 @@ import com.telecom.demo.db.entities.customer.Customer;
 import com.telecom.demo.db.repo.customer.AddressRepository;
 import com.telecom.demo.db.repo.customer.CustomerRepository;
 import com.telecom.demo.service.CustomerService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,20 @@ public class CustomerServiceImpl implements CustomerService {
         return result;
     }
 
-    private List<CustomerDTO> convertCustomerToCustomerDTO(List<Customer> customers) {
+    @Override
+    public List<CustomerDTO> getAllCustomerInCity(String city) {
+        List<Address> allAddress = addressRepository.findByCity(city);
+        if(CollectionUtils.isNotEmpty(allAddress)) {
+            List<Customer> allCustomers = new ArrayList<>();
+            for (Address address : allAddress) {
+                allCustomers.add(address.getCustomer());
+            }
+            return convertCustomerToCustomerDTO(allCustomers);
+        }
+        return List.of();
+    }
+
+    public List<CustomerDTO> convertCustomerToCustomerDTO(List<Customer> customers) {
         List<CustomerDTO> result = new ArrayList<>();
         for (Customer cust: customers) {
             CustomerDTO customerDTO = getCustomerDTO(cust);

@@ -9,5 +9,11 @@ public interface AddressRepository extends JpaRepository<Address, Integer> {
 
     public List<Address> findByZipCode(int zipcode);
 
+    public List<Address> findByCity(String city);
+
+    public List<Address> findByCityAndCountry(String city, String country);
+
+    public List<Address> findByCityOrCountry(String city, String country);
+
 
 }
